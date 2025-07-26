@@ -58,29 +58,77 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    "Fall 2025 Software Engineer internship",
-                    "Fall 2025 Software Developer internship", 
-                    "Fall 2025 SDE internship",
-                    "Fall 2025 SWE internship",
-                    "Fall 2025 Software Engineer co-op",
-                    "Fall 2025 Software Developer co-op",
-                    "Fall 2025 SDE co-op",
-                    "Fall 2025 Software Engineer internship remote",
-                    "Fall 2025 Software Developer internship remote",
-                    "Fall 2025 SWE internship remote",
-                    "Fall 2025 co-op remote software",
-                    "Fall 2025 React Node.js internship",
-                    "Fall 2025 full stack developer internship",
-                    "Fall 2025 JavaScript TypeScript internship",
-                    "Fall 2025 Python software internship",
-                    "Fall 2025 AWS cloud internship",
+                    # Core Software Engineer Intern variations
+                    "Fall 2025 Software Engineer Intern",
+                    "Fall 2025 Software Engineering Intern", 
+                    "Software Engineer Intern Fall 2025",
+                    "Software Engineering Intern Fall 2025",
+
+                    # Software Developer Intern variations
+                    "Fall 2025 Software Developer Intern",
+                    "Fall 2025 Software Development Intern",
+                    "Software Developer Intern Fall 2025",
+                    "Software Development Intern Fall 2025",
+
+                    # SDE/SWE abbreviations
+                    "Fall 2025 SDE Intern",
+                    "Fall 2025 SWE Intern",
+                    "SDE Intern Fall 2025",
+                    "SWE Intern Fall 2025",
+
+                    # Co-op variations
+                    "Fall 2025 Software Engineer Co-op",
+                    "Fall 2025 Software Developer Co-op",
+                    "Fall 2025 Software Engineering Co-op",
+                    "Fall 2025 SDE Co-op",
+                    "Software Engineer Co-op Fall 2025",
+
+                    # Stack-specific internships
+                    "Fall 2025 Backend Engineer Intern",
+                    "Fall 2025 Frontend Engineer Intern", 
+                    "Fall 2025 Full Stack Engineer Intern",
+                    "Fall 2025 Full Stack Developer Intern",
+
+                    # Remote-focused searches
+                    "Fall 2025 Software Engineer Intern remote",
+                    "Fall 2025 Software Developer Intern remote",
+                    "Fall 2025 remote Software Engineering Intern",
+                    "Fall 2025 SWE Intern remote",
+                    "Fall 2025 Co-op remote software",
+
+                    # Tech stack specific (based on resume)
+                    "Fall 2025 React internship",
+                    "Fall 2025 Node.js internship", 
+                    "Fall 2025 Python internship software",
+                    "Fall 2025 JavaScript internship",
+                    "Fall 2025 full stack internship",
+                    "Fall 2025 web development internship",
+
+                    # Application status
                     "Fall 2025 SWE internship applications open",
                     "Fall 2025 software internship hiring now",
-                    "Fall 2025 startup software internship",
+                    "Fall 2025 internship applications software",
+                    "Fall 2025 software engineer internship open",
+
+                    # Company types
                     "Fall 2025 FAANG software internship",
+                    "Fall 2025 startup software internship",
                     "Fall 2025 fintech software internship",
+                    "Fall 2025 big tech internship software",
                     "Fall 2025 e-commerce software internship",
-                    "Fall 2025 microservices internship"
+
+                    # Alternative programs
+                    "Fall 2025 software apprenticeship",
+                    "Fall 2025 software fellowship",
+                    "Fall 2025 software residency",
+                    "Fall 2025 developer apprenticeship",
+                    "Fall 2025 developer fellowship",
+                    "Fall 2025 developer residency",
+
+                    # Academic integration
+                    "Fall 2025 internship computer science",
+                    "Fall 2025 CS internship software",
+                    "Fall 2025 graduate student internship software"            
                 ]
             
             all_results = []
