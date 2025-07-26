@@ -3,7 +3,6 @@ import requests
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
 from datetime import datetime
 import logging
 import re
@@ -13,31 +12,21 @@ logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('job_search.log')
+        logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)
 
 class CloudJobFinder:
     def __init__(self):
-        """Initialize the JobFinder with environment variables."""
-        if os.path.exists('.env'):
-            load_dotenv()
-            logger.info("Loaded environment from .env file")
-        else:
-            logger.info("No .env file found, using system environment variables")
-        
         self.email = os.getenv("EMAIL")
         self.password = os.getenv("EMAIL_PASSWORD") 
         self.serpapi_key = os.getenv("SERPAPI_KEY")
         self.send_to = os.getenv("SEND_TO")
         self.custom_query = os.getenv("CUSTOM_QUERY", "")
-
         self._validate_env_vars()
     
     def _validate_env_vars(self):
-        """Validate that all required environment variables are set."""
         required_vars = {
             "EMAIL": self.email,
             "EMAIL_PASSWORD": self.password,
@@ -63,48 +52,34 @@ class CloudJobFinder:
         logger.info(f"Environment variables validated. Recipients: {len(self.recipients)}")
     
     def search_jobs(self):
-        """Search for Fall 2025 SWE internships using SerpAPI."""
         try:
             if self.custom_query.strip():
                 queries = [self.custom_query.strip()]
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    # Core Fall 2025 internship searches
                     "Fall 2025 Software Engineer internship",
                     "Fall 2025 Software Developer internship", 
                     "Fall 2025 SDE internship",
                     "Fall 2025 SWE internship",
-                    
-                    # Co-op specific searches
                     "Fall 2025 Software Engineer co-op",
                     "Fall 2025 Software Developer co-op",
                     "Fall 2025 SDE co-op",
-                    
-                    # Remote-focused searches
                     "Fall 2025 Software Engineer internship remote",
                     "Fall 2025 Software Developer internship remote",
                     "Fall 2025 SWE internship remote",
                     "Fall 2025 co-op remote software",
-                    
-                    # Tech stack specific searches
                     "Fall 2025 React Node.js internship",
                     "Fall 2025 full stack developer internship",
                     "Fall 2025 JavaScript TypeScript internship",
                     "Fall 2025 Python software internship",
                     "Fall 2025 AWS cloud internship",
-                    
-                    # upcoming opportunities
                     "Fall 2025 SWE internship applications open",
                     "Fall 2025 software internship hiring now",
-                    
-                    # Company type specific
                     "Fall 2025 startup software internship",
                     "Fall 2025 FAANG software internship",
                     "Fall 2025 fintech software internship",
                     "Fall 2025 e-commerce software internship",
-                    
-                    # Specific technologies from your resume
                     "Fall 2025 microservices internship"
                 ]
             
@@ -144,10 +119,10 @@ class CloudJobFinder:
                         all_results.append(result)
                         results_count += 1
                     
-                    logger.info(f"  ✓ Found {results_count} results")
+                    logger.info(f"Found {results_count} results")
                     
                 except requests.exceptions.RequestException as e:
-                    logger.error(f"  ✗ API request failed for query '{query}': {e}")
+                    logger.error(f"API request failed for query '{query}': {e}")
                     continue
             
             logger.info(f"Total raw results collected: {len(all_results)}")
@@ -158,7 +133,6 @@ class CloudJobFinder:
             return f"Error searching for jobs: {e}"
     
     def _format_results(self, results):
-        """Format search results into a readable email body."""
         if not results:
             return "No internship results found in this search."
 
@@ -190,31 +164,30 @@ class CloudJobFinder:
             formatted += f"   {result['link']}\n"
             formatted += f"   Found via: {result['query']}\n\n"
         
-        formatted += f"\n Search Summary:\n"
+        formatted += f"\nSearch Summary:\n"
         formatted += f"   • Total unique positions: {len(unique_results)}\n"
         formatted += f"   • Search completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}\n"
         formatted += f"   • Next search: Tomorrow at the same time\n\n"
-        formatted += f" Tip: Apply early and customize your applications!\n"
-        formatted += f" Automated by GitHub Actions"
+        formatted += f"Tip: Apply early and customize your applications!\n"
+        formatted += f"Automated by GitHub Actions"
         
         return formatted
     
     def send_email(self, body):
-        """Send email with job search results to multiple recipients."""
         try:
             msg = MIMEMultipart()
-            msg["Subject"] = f" Fall 2025 SWE Jobs - {datetime.now().strftime('%m/%d/%Y')} ({len(self.recipients)} recipient(s))"
+            msg["Subject"] = f"Fall 2025 SWE Jobs - {datetime.now().strftime('%m/%d/%Y')}"
             msg["From"] = self.email
             msg["To"] = ", ".join(self.recipients)
 
             msg.attach(MIMEText(body, "plain"))
 
-            logger.info(" Connecting to Gmail SMTP...")
+            logger.info("Connecting to Gmail SMTP...")
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(self.email, self.password)
                 server.sendmail(self.email, self.recipients, msg.as_string())
             
-            logger.info(f" Email sent successfully to {len(self.recipients)} recipient(s)")
+            logger.info(f"Email sent successfully to {len(self.recipients)} recipient(s)")
             
         except smtplib.SMTPAuthenticationError as e:
             error_msg = "SMTP Authentication failed. Check your email credentials."
@@ -230,41 +203,39 @@ class CloudJobFinder:
             raise Exception(error_msg)
     
     def run(self):
-        """Main execution method."""
         try:
-            logger.info(" Starting internship search automation...")
-            logger.info(f" Running in: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') else 'Local environment'}")
+            logger.info("Starting internship search automation...")
+            logger.info(f"Running in: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') else 'Local environment'}")
 
             job_results = self.search_jobs()
 
-            logger.info(" Sending results via email...")
+            logger.info("Sending results via email...")
             self.send_email(job_results)
             
-            logger.info(" Internship search completed successfully!")
+            logger.info("Internship search completed successfully!")
             return True
             
         except Exception as e:
-            logger.error(f" Application failed: {e}")
+            logger.error(f"Application failed: {e}")
             with open('error.txt', 'w') as f:
                 f.write(f"Error occurred at {datetime.now()}: {str(e)}")
             raise
 
 def main():
-    """Entry point of the application."""
     try:
         job_finder = CloudJobFinder()
         success = job_finder.run()
         if success:
-            print(" Job search automation completed successfully!")
+            print("Job search automation completed successfully!")
         else:
-            print(" Job search failed")
+            print("Job search failed")
             sys.exit(1)
             
     except KeyboardInterrupt:
-        print("\n Search cancelled by user")
+        print("\nSearch cancelled by user")
         sys.exit(0)
     except Exception as e:
-        print(f" Application error: {e}")
+        print(f"Application error: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
