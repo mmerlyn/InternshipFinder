@@ -58,64 +58,30 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    # Core Software Engineer Intern variations
-                    "Fall 2025 Software Engineer Intern posted today",
-                    "Fall 2025 Software Engineering Intern posted today", 
-                    "Software Engineer Intern Fall 2025 posted today",
-                    "Software Engineering Intern Fall 2025 posted today",
-
-                    # Software Developer Intern variations
-                    "Fall 2025 Software Developer Intern posted today",
-                    "Fall 2025 Software Development Intern posted today",
-                    "Software Developer Intern Fall 2025 posted today",
-                    "Software Development Intern Fall 2025 posted today",
-
-                    # SDE/SWE abbreviations
-                    "Fall 2025 SDE Intern posted today",
-                    "Fall 2025 SWE Intern posted today",
-                    "SDE Intern Fall 2025 posted today",
-                    "SWE Intern Fall 2025 posted today",
-
-                    # Co-op variations
-                    "Fall 2025 Software Engineer Co-op posted today",
-                    "Fall 2025 Software Developer Co-op posted today",
-                    "Fall 2025 Software Engineering Co-op posted today",
-                    "Fall 2025 SDE Co-op posted today",
-                    "Software Engineer Co-op Fall 2025 posted today",
-
-                    # Stack-specific internships
-                    "Fall 2025 Backend Engineer Intern posted today",
-                    "Fall 2025 Frontend Engineer Intern posted today", 
-                    "Fall 2025 Full Stack Engineer Intern posted today",
-                    "Fall 2025 Full Stack Developer Intern posted today",
-
-                    # Remote-focused searches
-                    "Fall 2025 Software Engineer Intern remote posted today",
-                    "Fall 2025 Software Developer Intern remote posted today",
-                    "Fall 2025 remote Software Engineering Intern posted today",
-                    "Fall 2025 SWE Intern remote posted today",
-                    "Fall 2025 Co-op remote software posted today",
-
-                    # Tech stack specific (based on resume)
-                    "Fall 2025 React internship posted today",
-                    "Fall 2025 Node.js internship posted today", 
-                    "Fall 2025 Python internship software posted today",
-                    "Fall 2025 JavaScript internship posted today",
-                    "Fall 2025 full stack internship posted today",
-                    "Fall 2025 web development internship posted today",
-
-                    # Application status
+                    # Core high-impact searches with time filters
+                    "Fall 2025 Software Engineer internship new",
                     "Fall 2025 SWE internship applications open",
                     "Fall 2025 software internship hiring now",
-                    "Fall 2025 internship applications actively hiring",
-                    "Fall 2025 software engineer internship open",
-
-                    # Company types
+                    "Fall 2025 software internship posted this week",
+                    
+                    # Remote-focused
+                    "Fall 2025 software internship remote",
+                    "Fall 2025 SDE internship remote",
+                    
+                    # Major company types
                     "Fall 2025 FAANG software internship",
-                    "Fall 2025 startup software internship posted today",
-                    "Fall 2025 fintech software internship posted today",
-                    "Fall 2025 big tech internship software posted today",
-                    "Fall 2025 e-commerce software internship posted today",         
+                    "Fall 2025 startup software internship", 
+                    "Fall 2025 fintech software internship",
+                    
+                    # My tech stack
+                    "Fall 2025 React internship",
+                    "Fall 2025 full stack internship",
+                    "Fall 2025 Node.js internship",
+                    
+                    # Fresh opportunities
+                    "Fall 2025 internship just posted software",
+                    "Fall 2025 software engineer intern opening",
+                    "software internship Fall 2025 new posting"
                 ]
             
             all_results = []
