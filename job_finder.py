@@ -59,76 +59,63 @@ class CloudJobFinder:
             else:
                 queries = [
                     # Core Software Engineer Intern variations
-                    "Fall 2025 Software Engineer Intern",
-                    "Fall 2025 Software Engineering Intern", 
-                    "Software Engineer Intern Fall 2025",
-                    "Software Engineering Intern Fall 2025",
+                    "Fall 2025 Software Engineer Intern posted today",
+                    "Fall 2025 Software Engineering Intern posted today", 
+                    "Software Engineer Intern Fall 2025 posted today",
+                    "Software Engineering Intern Fall 2025 posted today",
 
                     # Software Developer Intern variations
-                    "Fall 2025 Software Developer Intern",
-                    "Fall 2025 Software Development Intern",
-                    "Software Developer Intern Fall 2025",
-                    "Software Development Intern Fall 2025",
+                    "Fall 2025 Software Developer Intern posted today",
+                    "Fall 2025 Software Development Intern posted today",
+                    "Software Developer Intern Fall 2025 posted today",
+                    "Software Development Intern Fall 2025 posted today",
 
                     # SDE/SWE abbreviations
-                    "Fall 2025 SDE Intern",
-                    "Fall 2025 SWE Intern",
-                    "SDE Intern Fall 2025",
-                    "SWE Intern Fall 2025",
+                    "Fall 2025 SDE Intern posted today",
+                    "Fall 2025 SWE Intern posted today",
+                    "SDE Intern Fall 2025 posted today",
+                    "SWE Intern Fall 2025 posted today",
 
                     # Co-op variations
-                    "Fall 2025 Software Engineer Co-op",
-                    "Fall 2025 Software Developer Co-op",
-                    "Fall 2025 Software Engineering Co-op",
-                    "Fall 2025 SDE Co-op",
-                    "Software Engineer Co-op Fall 2025",
+                    "Fall 2025 Software Engineer Co-op posted today",
+                    "Fall 2025 Software Developer Co-op posted today",
+                    "Fall 2025 Software Engineering Co-op posted today",
+                    "Fall 2025 SDE Co-op posted today",
+                    "Software Engineer Co-op Fall 2025 posted today",
 
                     # Stack-specific internships
-                    "Fall 2025 Backend Engineer Intern",
-                    "Fall 2025 Frontend Engineer Intern", 
-                    "Fall 2025 Full Stack Engineer Intern",
-                    "Fall 2025 Full Stack Developer Intern",
+                    "Fall 2025 Backend Engineer Intern posted today",
+                    "Fall 2025 Frontend Engineer Intern posted today", 
+                    "Fall 2025 Full Stack Engineer Intern posted today",
+                    "Fall 2025 Full Stack Developer Intern posted today",
 
                     # Remote-focused searches
-                    "Fall 2025 Software Engineer Intern remote",
-                    "Fall 2025 Software Developer Intern remote",
-                    "Fall 2025 remote Software Engineering Intern",
-                    "Fall 2025 SWE Intern remote",
-                    "Fall 2025 Co-op remote software",
+                    "Fall 2025 Software Engineer Intern remote posted today",
+                    "Fall 2025 Software Developer Intern remote posted today",
+                    "Fall 2025 remote Software Engineering Intern posted today",
+                    "Fall 2025 SWE Intern remote posted today",
+                    "Fall 2025 Co-op remote software posted today",
 
                     # Tech stack specific (based on resume)
-                    "Fall 2025 React internship",
-                    "Fall 2025 Node.js internship", 
-                    "Fall 2025 Python internship software",
-                    "Fall 2025 JavaScript internship",
-                    "Fall 2025 full stack internship",
-                    "Fall 2025 web development internship",
+                    "Fall 2025 React internship posted today",
+                    "Fall 2025 Node.js internship posted today", 
+                    "Fall 2025 Python internship software posted today",
+                    "Fall 2025 JavaScript internship posted today",
+                    "Fall 2025 full stack internship posted today",
+                    "Fall 2025 web development internship posted today",
 
                     # Application status
                     "Fall 2025 SWE internship applications open",
                     "Fall 2025 software internship hiring now",
-                    "Fall 2025 internship applications software",
+                    "Fall 2025 internship applications actively hiring",
                     "Fall 2025 software engineer internship open",
 
                     # Company types
                     "Fall 2025 FAANG software internship",
-                    "Fall 2025 startup software internship",
-                    "Fall 2025 fintech software internship",
-                    "Fall 2025 big tech internship software",
-                    "Fall 2025 e-commerce software internship",
-
-                    # Alternative programs
-                    "Fall 2025 software apprenticeship",
-                    "Fall 2025 software fellowship",
-                    "Fall 2025 software residency",
-                    "Fall 2025 developer apprenticeship",
-                    "Fall 2025 developer fellowship",
-                    "Fall 2025 developer residency",
-
-                    # Academic integration
-                    "Fall 2025 internship computer science",
-                    "Fall 2025 CS internship software",
-                    "Fall 2025 graduate student internship software"            
+                    "Fall 2025 startup software internship posted today",
+                    "Fall 2025 fintech software internship posted today",
+                    "Fall 2025 big tech internship software posted today",
+                    "Fall 2025 e-commerce software internship posted today",         
                 ]
             
             all_results = []
