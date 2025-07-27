@@ -58,30 +58,43 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    # Core high-impact searches with time filters
-                    "Fall 2025 Software Engineer internship new",
+                    # Core Fall 2025 internship searches
+                    "Fall 2025 Software Engineer internship",
+                    "Fall 2025 Software Developer internship", 
+                    "Fall 2025 SDE internship",
+                    "Fall 2025 SWE internship",
+                    
+                    # Co-op specific searches
+                    "Fall 2025 Software Engineer co-op",
+                    "Fall 2025 Software Developer co-op",
+                    "Fall 2025 SDE co-op",
+                    
+                    # Remote-focused searches
+                    "Fall 2025 Software Engineer internship remote",
+                    "Fall 2025 Software Developer internship remote",
+                    "Fall 2025 SWE internship remote",
+                    "Fall 2025 co-op remote software",
+                    
+                    # Tech stack specific searches
+                    "Fall 2025 React Node.js internship",
+                    "Fall 2025 full stack developer internship",
+                    "Fall 2025 JavaScript TypeScript internship",
+                    "Fall 2025 Python software internship",
+                    "Fall 2025 AWS cloud internship",
+                    
+                    # upcoming opportunities
                     "Fall 2025 SWE internship applications open",
                     "Fall 2025 software internship hiring now",
-                    "Fall 2025 software internship posted this week",
                     
-                    # Remote-focused
-                    "Fall 2025 software internship remote",
-                    "Fall 2025 SDE internship remote",
-                    
-                    # Major company types
+                    # Company type specific
+                    "Fall 2025 startup software internship",
                     "Fall 2025 FAANG software internship",
-                    "Fall 2025 startup software internship", 
                     "Fall 2025 fintech software internship",
+                    "Fall 2025 e-commerce software internship",
                     
-                    # My tech stack
-                    "Fall 2025 React internship",
-                    "Fall 2025 full stack internship",
-                    "Fall 2025 Node.js internship",
-                    
-                    # Fresh opportunities
-                    "Fall 2025 internship just posted software",
-                    "Fall 2025 software engineer intern opening",
-                    "software internship Fall 2025 new posting"
+                    # Specific technologies from your resume
+                    "Fall 2025 microservices internship"
+
                 ]
             
             all_results = []
