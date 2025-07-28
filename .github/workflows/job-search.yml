@@ -35,11 +35,12 @@ jobs:
       env:
         EMAIL: ${{ secrets.EMAIL }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        BING_API_KEY: ${{ secrets.BING_API_KEY }}
+        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        GOOGLE_CSE_ID: ${{ secrets.GOOGLE_CSE_ID }}
         SEND_TO: ${{ secrets.SEND_TO }}
         CUSTOM_QUERY: ${{ github.event.inputs.search_query }}
       run: |
-        echo "Starting automated job search..."
+        echo "Starting automated job search with Google Custom Search..."
         echo "Current time: $(date)"
         echo "Running on: $RUNNER_OS"
         python job_finder.py

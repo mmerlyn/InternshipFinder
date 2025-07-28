@@ -21,7 +21,8 @@ class CloudJobFinder:
     def __init__(self):
         self.email = os.getenv("EMAIL")
         self.password = os.getenv("EMAIL_PASSWORD") 
-        self.bing_api_key = os.getenv("BING_API_KEY")
+        self.google_api_key = os.getenv("GOOGLE_API_KEY")
+        self.google_cse_id = os.getenv("GOOGLE_CSE_ID")
         self.send_to = os.getenv("SEND_TO")
         self.custom_query = os.getenv("CUSTOM_QUERY", "")
         self._validate_env_vars()
@@ -30,7 +31,8 @@ class CloudJobFinder:
         required_vars = {
             "EMAIL": self.email,
             "EMAIL_PASSWORD": self.password,
-            "BING_API_KEY": self.bing_api_key,
+            "GOOGLE_API_KEY": self.google_api_key,
+            "GOOGLE_CSE_ID": self.google_cse_id,
             "SEND_TO": self.send_to
         }
         
@@ -75,48 +77,55 @@ class CloudJobFinder:
                     import time
                     time.sleep(1)
                 
-                url = "https://api.bing.microsoft.com/v7.0/search"
-                headers = {
-                    "Ocp-Apim-Subscription-Key": self.bing_api_key
-                }
+                # Google Custom Search API endpoint
+                url = "https://www.googleapis.com/customsearch/v1"
                 params = {
+                    "key": self.google_api_key,
+                    "cx": self.google_cse_id,
                     "q": query,
-                    "count": 20,  # Get more results per query
-                    "offset": 0,
-                    "mkt": "en-US",
-                    "safesearch": "Moderate",
-                    "freshness": "Week"  # Focus on recent postings
+                    "num": 10,  # Max 10 per request
+                    "start": 1,
+                    "lr": "lang_en",
+                    "safe": "medium",
+                    "dateRestrict": "w1"  # Past week for fresh results
                 }
                 
                 try:
-                    response = requests.get(url, headers=headers, params=params, timeout=30)
+                    response = requests.get(url, params=params, timeout=30)
                     
                     if response.status_code == 429:
                         logger.warning(f"Rate limit hit for query '{query}'. Waiting 5 seconds...")
                         import time
                         time.sleep(5)
-                        response = requests.get(url, headers=headers, params=params, timeout=30)
+                        response = requests.get(url, params=params, timeout=30)
                     
                     response.raise_for_status()
                     data = response.json()
 
                     if "error" in data:
-                        logger.error(f"Bing API error: {data['error']}")
+                        logger.error(f"Google API error: {data['error']}")
                         continue
 
                     results_count = 0
-                    web_pages = data.get("webPages", {}).get("value", [])
+                    items = data.get("items", [])
                     
-                    for item in web_pages:
+                    for item in items:
                         # Filter for job-related URLs
-                        url_lower = item.get("url", "").lower()
-                        if any(job_site in url_lower for job_site in [
+                        url_lower = item.get("link", "").lower()
+                        title_lower = item.get("title", "").lower()
+                        
+                        # More comprehensive job filtering
+                        job_indicators = [
                             "careers", "jobs", "job", "internship", "intern", 
-                            "apply", "opportunities", "hiring", "employment"
-                        ]):
+                            "apply", "opportunities", "hiring", "employment",
+                            "greenhouse", "lever", "workday", "taleo", "bamboohr"
+                        ]
+                        
+                        if any(indicator in url_lower or indicator in title_lower 
+                               for indicator in job_indicators):
                             result = {
-                                "title": item.get("name", "No title"),
-                                "link": item.get("url", ""),
+                                "title": item.get("title", "No title"),
+                                "link": item.get("link", ""),
                                 "snippet": item.get("snippet", "No description"),
                                 "query": query
                             }
@@ -176,7 +185,7 @@ class CloudJobFinder:
         formatted += f"   • Search completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}\n"
         formatted += f"   • Next search: Tomorrow at the same time\n\n"
         formatted += f"Tip: Apply early and customize your applications!\n"
-        formatted += f"Automated by GitHub Actions with Bing Search API"
+        formatted += f"Automated by GitHub Actions with Google Custom Search API"
         
         return formatted
     
