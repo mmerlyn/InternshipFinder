@@ -35,7 +35,7 @@ jobs:
       env:
         EMAIL: ${{ secrets.EMAIL }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        SERPAPI_KEY: ${{ secrets.BING_API_KEY }}
+        BING_API_KEY: ${{ secrets.BING_API_KEY }}
         SEND_TO: ${{ secrets.SEND_TO }}
         CUSTOM_QUERY: ${{ github.event.inputs.search_query }}
       run: |
