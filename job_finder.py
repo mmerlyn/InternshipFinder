@@ -84,10 +84,7 @@ class CloudJobFinder:
                     "cx": self.google_cse_id,
                     "q": query,
                     "num": 10,  # Max 10 per request
-                    "start": 1,
-                    "lr": "lang_en",
-                    "safe": "medium",
-                    "dateRestrict": "w1"  # Past week for fresh results
+                    "start": 1
                 }
                 
                 try:
