@@ -118,6 +118,10 @@ class CloudJobFinder:
                     response.raise_for_status()
                     data = response.json()
 
+                    if not data.get("organic_results"):
+                        print(f"No results for: {query}")
+
+
                     if "error" in data:
                         logger.error(f"SerpAPI error: {data['error']}")
                         continue
