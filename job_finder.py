@@ -21,7 +21,7 @@ class CloudJobFinder:
     def __init__(self):
         self.email = os.getenv("EMAIL")
         self.password = os.getenv("EMAIL_PASSWORD") 
-        self.serpapi_key = os.getenv("SERPAPI_KEY")
+        self.bing_api_key = os.getenv("BING_API_KEY")
         self.send_to = os.getenv("SEND_TO")
         self.custom_query = os.getenv("CUSTOM_QUERY", "")
         self._validate_env_vars()
@@ -30,7 +30,7 @@ class CloudJobFinder:
         required_vars = {
             "EMAIL": self.email,
             "EMAIL_PASSWORD": self.password,
-            "SERPAPI_KEY": self.serpapi_key,
+            "BING_API_KEY": self.bing_api_key,
             "SEND_TO": self.send_to
         }
         
@@ -58,43 +58,12 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    # Core Fall 2025 internship searches
-                    "Fall 2025 Software Engineer internship",
-                    "Fall 2025 Software Developer internship", 
-                    "Fall 2025 SDE internship",
-                    "Fall 2025 SWE internship",
-                    
-                    # Co-op specific searches
-                    "Fall 2025 Software Engineer co-op",
-                    "Fall 2025 Software Developer co-op",
-                    "Fall 2025 SDE co-op",
-                    
-                    # Remote-focused searches
-                    "Fall 2025 Software Engineer internship remote",
-                    "Fall 2025 Software Developer internship remote",
-                    "Fall 2025 SWE internship remote",
-                    "Fall 2025 co-op remote software",
-                    
-                    # Tech stack specific searches
-                    "Fall 2025 React Node.js internship",
-                    "Fall 2025 full stack developer internship",
-                    "Fall 2025 JavaScript TypeScript internship",
-                    "Fall 2025 Python software internship",
-                    "Fall 2025 AWS cloud internship",
-                    
-                    # upcoming opportunities
-                    "Fall 2025 SWE internship applications open",
-                    "Fall 2025 software internship hiring now",
-                    
-                    # Company type specific
-                    "Fall 2025 startup software internship",
+                    "Fall 2025 Software Engineer internship applications open",
+                    "Fall 2025 software internship remote",
                     "Fall 2025 FAANG software internship",
-                    "Fall 2025 fintech software internship",
-                    "Fall 2025 e-commerce software internship",
-                    
-                    # Specific technologies from your resume
-                    "Fall 2025 microservices internship"
-
+                    "Fall 2025 startup software internship",
+                    "Fall 2025 React full stack internship",
+                    "Fall 2025 SWE internship hiring now"
                 ]
             
             all_results = []
@@ -102,45 +71,65 @@ class CloudJobFinder:
             for i, query in enumerate(queries, 1):
                 logger.info(f"Search {i}/{len(queries)}: {query}")
                 
-                url = "https://serpapi.com/search.json"
+                if i > 1:
+                    import time
+                    time.sleep(1)
+                
+                url = "https://api.bing.microsoft.com/v7.0/search"
+                headers = {
+                    "Ocp-Apim-Subscription-Key": self.bing_api_key
+                }
                 params = {
-                    "engine": "google",
                     "q": query,
-                    "api_key": self.serpapi_key,
-                    "num": 10,
-                    "hl": "en",
-                    "gl": "us",
-                    "safe": "active"
+                    "count": 20,  # Get more results per query
+                    "offset": 0,
+                    "mkt": "en-US",
+                    "safesearch": "Moderate",
+                    "freshness": "Week"  # Focus on recent postings
                 }
                 
                 try:
-                    response = requests.get(url, params=params, timeout=30)
+                    response = requests.get(url, headers=headers, params=params, timeout=30)
+                    
+                    if response.status_code == 429:
+                        logger.warning(f"Rate limit hit for query '{query}'. Waiting 5 seconds...")
+                        import time
+                        time.sleep(5)
+                        response = requests.get(url, headers=headers, params=params, timeout=30)
+                    
                     response.raise_for_status()
                     data = response.json()
 
-                    if not data.get("organic_results"):
-                        print(f"No results for: {query}")
-
-
                     if "error" in data:
-                        logger.error(f"SerpAPI error: {data['error']}")
+                        logger.error(f"Bing API error: {data['error']}")
                         continue
 
                     results_count = 0
-                    for item in data.get("organic_results", []):
-                        result = {
-                            "title": item.get("title", "No title"),
-                            "link": item.get("link", ""),
-                            "snippet": item.get("snippet", "No description"),
-                            "query": query
-                        }
-                        all_results.append(result)
-                        results_count += 1
+                    web_pages = data.get("webPages", {}).get("value", [])
                     
-                    logger.info(f"Found {results_count} results")
+                    for item in web_pages:
+                        # Filter for job-related URLs
+                        url_lower = item.get("url", "").lower()
+                        if any(job_site in url_lower for job_site in [
+                            "careers", "jobs", "job", "internship", "intern", 
+                            "apply", "opportunities", "hiring", "employment"
+                        ]):
+                            result = {
+                                "title": item.get("name", "No title"),
+                                "link": item.get("url", ""),
+                                "snippet": item.get("snippet", "No description"),
+                                "query": query
+                            }
+                            all_results.append(result)
+                            results_count += 1
+                    
+                    logger.info(f"Found {results_count} job-related results")
                     
                 except requests.exceptions.RequestException as e:
-                    logger.error(f"API request failed for query '{query}': {e}")
+                    if "429" in str(e):
+                        logger.warning(f"Rate limit exceeded for query '{query}'. Skipping...")
+                    else:
+                        logger.error(f"API request failed for query '{query}': {e}")
                     continue
             
             logger.info(f"Total raw results collected: {len(all_results)}")
@@ -187,7 +176,7 @@ class CloudJobFinder:
         formatted += f"   • Search completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}\n"
         formatted += f"   • Next search: Tomorrow at the same time\n\n"
         formatted += f"Tip: Apply early and customize your applications!\n"
-        formatted += f"Automated by GitHub Actions"
+        formatted += f"Automated by GitHub Actions with Bing Search API"
         
         return formatted
     
