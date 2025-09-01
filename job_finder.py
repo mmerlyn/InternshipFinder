@@ -60,12 +60,12 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    "Fall 2025 Software Engineer internship applications open",
-                    "Fall 2025 software internship remote",
-                    "Fall 2025 FAANG software internship",
-                    "Fall 2025 startup software internship",
-                    "Fall 2025 React full stack internship",
-                    "Fall 2025 SWE internship hiring now"
+                    "Spring 2026 Software Engineer internship applications open",
+                    "Spring 2026 software internship remote",
+                    "Spring 2026 FAANG software internship",
+                    "Spring 2026 startup software internship",
+                    "Spring 2026 React full stack internship",
+                    "Spring 2026 SWE internship hiring now"
                 ]
             
             all_results = []
