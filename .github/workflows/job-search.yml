@@ -1,5 +1,4 @@
-name: Daily SWE Internship Search
-
+name: Daily SWE Job Search
 on:
   schedule:
     - cron: '0 12 * * *'
