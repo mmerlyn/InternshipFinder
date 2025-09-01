@@ -65,7 +65,17 @@ class CloudJobFinder:
                     "Spring 2026 FAANG software internship",
                     "Spring 2026 startup software internship",
                     "Spring 2026 React full stack internship",
-                    "Spring 2026 SWE internship hiring now"
+                    "Spring 2026 SWE internship hiring now",
+
+                    "2026 Software Engineer Full time applications open",
+                    "2026 Software Engineer hiring now",
+                    "SDE new grad 2026",
+                    "SWE new grad 2026",
+                    "software engineer new grad 2026",                  
+                    "software developer new grad 2026",
+                    "software engineer entry level 2026",
+                    "software developer entry level 2026",
+                    "tech company new grad software"
                 ]
             
             all_results = []
