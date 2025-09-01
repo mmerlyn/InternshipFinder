@@ -60,22 +60,16 @@ class CloudJobFinder:
                 logger.info(f"Using custom search query: {self.custom_query}")
             else:
                 queries = [
-                    "Spring 2026 Software Engineer internship applications open",
-                    "Spring 2026 software internship remote",
-                    "Spring 2026 FAANG software internship",
-                    "Spring 2026 startup software internship",
-                    "Spring 2026 React full stack internship",
-                    "Spring 2026 SWE internship hiring now",
-
-                    "2026 Software Engineer Full time applications open",
-                    "2026 Software Engineer hiring now",
-                    "SDE new grad 2026",
-                    "SWE new grad 2026",
-                    "software engineer new grad 2026",                  
-                    "software developer new grad 2026",
-                    "software engineer entry level 2026",
-                    "software developer entry level 2026",
-                    "tech company new grad software"
+                    "2026 software engineer new grad",
+                    "2026 software developer new grad",
+                    "2026 SDE new grad",
+                    "2026 tech company new grad software engineer",
+                    "2026 software engineer I",
+                    "2026 SDE I",
+                    "2026 associate software engineer",
+                    "2026 university graduate software engineer",
+                    "2026 entry level software engineer",
+                    "2026 entry level software developer"
                 ]
             
             all_results = []
@@ -157,7 +151,7 @@ class CloudJobFinder:
     
     def _format_results(self, results):
         if not results:
-            return "No internship results found in this search."
+            return "No jobs found in this search."
 
         unique_results = {}
         for result in results:
@@ -167,12 +161,12 @@ class CloudJobFinder:
         
         logger.info(f"Unique results after deduplication: {len(unique_results)}")
 
-        formatted = f"Fall 2025 SWE Internship Search Results\n"
+        formatted = f"2026 Full Time SWE Positions\n"
         formatted += f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}\n"
         formatted += f"Found {len(unique_results)} unique opportunities\n"
         formatted += "=" * 70 + "\n\n"
 
-        key_terms = ["software", "engineer", "developer", "sde", "intern", "2025"]
+        key_terms = ["software", "engineer", "developer", "sde", "2026", "new grad", "entry level"]
         sorted_results = sorted(
             unique_results.values(),
             key=lambda x: sum(1 for term in key_terms if term.lower() in x['title'].lower()),
@@ -199,7 +193,7 @@ class CloudJobFinder:
     def send_email(self, body):
         try:
             msg = MIMEMultipart()
-            msg["Subject"] = f"Fall 2025 SWE Jobs - {datetime.now().strftime('%m/%d/%Y')}"
+            msg["Subject"] = f"2026 SWE Jobs - {datetime.now().strftime('%m/%d/%Y')}"
             msg["From"] = self.email
             msg["To"] = ", ".join(self.recipients)
 
@@ -227,7 +221,7 @@ class CloudJobFinder:
     
     def run(self):
         try:
-            logger.info("Starting internship search automation...")
+            logger.info("Starting job search search automation...")
             logger.info(f"Running in: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') else 'Local environment'}")
 
             job_results = self.search_jobs()
@@ -235,7 +229,7 @@ class CloudJobFinder:
             logger.info("Sending results via email...")
             self.send_email(job_results)
             
-            logger.info("Internship search completed successfully!")
+            logger.info("Job search completed successfully!")
             return True
             
         except Exception as e:
